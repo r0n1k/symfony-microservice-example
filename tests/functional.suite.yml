@@ -1,0 +1,37 @@
+# Codeception Test Suite Configuration
+#
+# Suite for functional tests
+# Emulate web requests and make application process them
+# Include one of framework modules (Symfony2, Yii2, Laravel5) to use it
+# Remove this suite if you don't use frameworks
+
+actor: FunctionalTester
+modules:
+    enabled:
+        - Symfony:
+            app_path: 'src'
+            environment: 'test'
+        - Doctrine2:
+            depends: Symfony
+            cleanup: true
+        - REST:
+             part: Json
+             depends: Symfony
+        - \App\Tests\Helper\ApiValidator:
+            depends: [REST, Symfony]
+            schema: '/tests/_data/swagger.json'
+        - \App\Tests\Helper\Functional
+        - Asserts
+        - \App\Tests\Faker
+        - \App\Tests\Helper\ConclusionTemplates
+        - \App\Tests\Helper\DomainEvents
+        - \App\Tests\Helper\DataFactory:
+             depends:
+                - \App\Tests\Helper\DomainEvents
+        - \App\Tests\Helper\ResponseFormatValidator:
+             depends:
+                - REST
+        - \App\Tests\Helper\JWTAuthenticator:
+             depends:
+                - REST
+                - \App\Tests\Helper\DataFactory

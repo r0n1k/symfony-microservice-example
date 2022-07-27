@@ -1,0 +1,1675 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Elexp Conclusions API",
+    "version": "1.0"
+  },
+  "paths": {
+    "/": {},
+    "/conclusion/{conclusion_id}": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "format": "uuid",
+            "in": "path",
+            "name": "conclusion_id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ApiResponse"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/Conclusion"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "tags": [
+          "Conclusion"
+        ],
+        "operationId": "App\\Http\\Controller\\Conclusion\\ConclusionController::fetch",
+        "summary": "Получить заключение"
+      }
+    },
+    "/conclusion/{conclusion_id}/paragraph": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "format": "uuid",
+            "in": "path",
+            "name": "conclusion_id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/CreateConclusionParagraphDTO"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "ok",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ApiResponse"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/ConclusionParagraph"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          },
+          "400": {
+            "description": "Неверные данные",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        },
+        "tags": [
+          "Conclusion Paragraph"
+        ],
+        "operationId": "App\\Http\\Controller\\Conclusion\\ParagraphController::createParagraph",
+        "summary": "Добавить параграф"
+      }
+    },
+    "/conclusion/{conclusion_id}/paragraph/{paragraph_id}": {
+      "delete": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "format": "uuid",
+            "in": "path",
+            "name": "conclusion_id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "paragraph_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        },
+        "tags": [
+          "Conclusion Paragraph"
+        ],
+        "operationId": "App\\Http\\Controller\\Conclusion\\ParagraphController::deleteParagraph",
+        "summary": "Удалить параграф"
+      }
+    },
+    "/conclusion/{conclusion_id}/paragraph/{paragraph_id}/block": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "ID заключения",
+            "format": "uuid",
+            "in": "path",
+            "name": "conclusion_id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "ID раздела",
+            "in": "path",
+            "name": "paragraph_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/CreateConclusionBlockDTO"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "ok",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ApiResponse"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/ConclusionBlock"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "tags": [
+          "Conclusion Block"
+        ],
+        "operationId": "App\\Http\\Controller\\Conclusion\\BlockController::createBlock",
+        "summary": "Создать блок"
+      }
+    },
+    "/conclusion/{conclusion_id}/paragraph/{paragraph_id}/block/{block_id}": {
+      "delete": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "ID заключения",
+            "format": "uuid",
+            "in": "path",
+            "name": "conclusion_id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "ID раздела",
+            "in": "path",
+            "name": "paragraph_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "ID блока",
+            "in": "path",
+            "name": "block_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        },
+        "tags": [
+          "Conclusion Block"
+        ],
+        "operationId": "App\\Http\\Controller\\Conclusion\\BlockController::deleteBlock",
+        "summary": "Удалить блок"
+      }
+    },
+    "/conclusion/{conclusion_id}/paragraph/{paragraph_id}/block/{block_id}/dictionary": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "ID заключения",
+            "format": "uuid",
+            "in": "path",
+            "name": "conclusion_id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "ID раздела",
+            "in": "path",
+            "name": "paragraph_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "ID блока",
+            "in": "path",
+            "name": "block_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/AddBlockDictionaryDTO"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "ok",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ApiResponse"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/ConclusionBlockDictionary"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "tags": [
+          "Conclusion Block"
+        ],
+        "operationId": "App\\Http\\Controller\\Conclusion\\DictionaryController::addDictionary",
+        "summary": "Добавить значение словаря"
+      }
+    },
+    "/conclusion/{conclusion_id}/paragraph/{paragraph_id}/block/{block_id}/dictionary/{dictionary_id}": {
+      "delete": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "ID заключения",
+            "format": "uuid",
+            "in": "path",
+            "name": "conclusion_id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "ID раздела",
+            "in": "path",
+            "name": "paragraph_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "ID блока",
+            "in": "path",
+            "name": "block_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "ID словаря",
+            "in": "path",
+            "name": "dictionary_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        },
+        "tags": [
+          "Conclusion Block"
+        ],
+        "operationId": "App\\Http\\Controller\\Conclusion\\DictionaryController::deleteDictionary",
+        "summary": "Удалить значение словаря"
+      }
+    },
+    "/conclusion/{conclusion_id}/paragraph/{paragraph_id}/block/{block_id}/executor": {
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "ID заключения",
+            "format": "uuid",
+            "in": "path",
+            "name": "conclusion_id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "ID раздела",
+            "in": "path",
+            "name": "paragraph_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "ID блока",
+            "in": "path",
+            "name": "block_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/SetBlockExecutorDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ApiResponse"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/ConclusionBlock"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "tags": [
+          "Conclusion Block"
+        ],
+        "operationId": "App\\Http\\Controller\\Conclusion\\BlockController::setExecutor",
+        "summary": "Изменить исполнителя блока"
+      }
+    },
+    "/conclusion/{conclusion_id}/paragraph/{paragraph_id}/block/{block_id}/kind": {
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "ID заключения",
+            "format": "uuid",
+            "in": "path",
+            "name": "conclusion_id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "ID раздела",
+            "in": "path",
+            "name": "paragraph_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "ID блока",
+            "in": "path",
+            "name": "block_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/ConclusionBlockSetKindDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ApiResponse"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/ConclusionBlock"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "tags": [
+          "Conclusion Block"
+        ],
+        "operationId": "App\\Http\\Controller\\Conclusion\\BlockController::setKind",
+        "summary": "Изменить тип блока"
+      }
+    },
+    "/conclusion/{conclusion_id}/paragraph/{paragraph_id}/block/{block_id}/state": {
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "ID заключения",
+            "format": "uuid",
+            "in": "path",
+            "name": "conclusion_id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "ID раздела",
+            "in": "path",
+            "name": "paragraph_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "ID блока",
+            "in": "path",
+            "name": "block_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/ChangeConclusionBlockStateDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ApiResponse"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/ConclusionBlock"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "tags": [
+          "Conclusion Block"
+        ],
+        "operationId": "App\\Http\\Controller\\Conclusion\\BlockController::setState",
+        "summary": "Изменить статус блока"
+      }
+    },
+    "/conclusion/{conclusion_id}/paragraph/{paragraph_id}/name": {
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "format": "uuid",
+            "in": "path",
+            "name": "conclusion_id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "paragraph_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/RenameParagraphDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ApiResponse"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/ConclusionParagraph"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "tags": [
+          "Conclusion Paragraph"
+        ],
+        "operationId": "App\\Http\\Controller\\Conclusion\\ParagraphController::renameParagraph",
+        "summary": "Переименовать параграф"
+      }
+    },
+    "/conclusion/{conclusion_id}/paragraph/{paragraph_id}/parent": {
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "format": "uuid",
+            "in": "path",
+            "name": "conclusion_id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "paragraph_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/SetParagraphsParentDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ApiResponse"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/ConclusionParagraph"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "tags": [
+          "Conclusion Paragraph"
+        ],
+        "operationId": "App\\Http\\Controller\\Conclusion\\ParagraphController::setParagraphParent",
+        "summary": "Указать родителя для параграфа"
+      }
+    },
+    "/conclusion/{conclusion_id}/print_form": {
+      "get": {
+        "produces": [
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        ],
+        "parameters": [
+          {
+            "description": "ID заключения",
+            "format": "uuid",
+            "in": "path",
+            "name": "conclusion_id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Docx file",
+            "headers": {
+              "Content-Disposition": {
+                "description": "attachment|inline",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "format": "binary",
+              "type": "string"
+            }
+          }
+        },
+        "tags": [
+          "Conclusion"
+        ],
+        "operationId": "App\\Http\\Controller\\Conclusion\\ConclusionController::generate",
+        "summary": "Получить печатную форму"
+      }
+    },
+    "/conclusion/{conclusion_id}/template": {
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "ID заключения",
+            "format": "uuid",
+            "in": "path",
+            "name": "conclusion_id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/ConclusionSetTemplateDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ApiResponse"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/Conclusion"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "tags": [
+          "Conclusion"
+        ],
+        "description": "Если заключение пустое, без созданных разделов, то создастся дерево по шаблону,\n    *     иначе ошибка\n    *    ",
+        "operationId": "App\\Http\\Controller\\Conclusion\\TemplateController::setTemplateForConclusion",
+        "summary": "Указать шаблон для существующего заключения"
+      }
+    },
+    "/project": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/UpsertProjectDTO"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Проект создан",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ApiResponse"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/Project"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          },
+          "409": {
+            "description": "Проект уже существует",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ApiResponse"
+                }
+              ]
+            }
+          }
+        },
+        "tags": [
+          "Projects"
+        ],
+        "description": "Создание проекта",
+        "operationId": "project:create"
+      }
+    },
+    "/project/{project_id}": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "format": "uuid",
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Проект",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ApiResponse"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/Project"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "tags": [
+          "Projects"
+        ],
+        "description": "Получить проект",
+        "operationId": "App\\Http\\Controller\\Project\\ProjectController::getOne"
+      },
+      "put": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "format": "uuid",
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/UpsertProjectDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Проект обновлён",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ApiResponse"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/Project"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          },
+          "404": {
+            "description": "Проект не найден",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ApiResponse"
+                }
+              ]
+            }
+          }
+        },
+        "tags": [
+          "Projects"
+        ],
+        "description": "Обновление проекта",
+        "operationId": "project:update"
+      }
+    },
+    "/project/{project_id}/conclusion": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "ID проекта",
+            "format": "uuid",
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/CreateConclusionDTO"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "ok",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ApiResponse"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/Conclusion"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          },
+          "404": {
+            "description": "Проект не найден"
+          }
+        },
+        "tags": [
+          "Conclusion"
+        ],
+        "operationId": "App\\Http\\Controller\\Conclusion\\ConclusionController::create",
+        "summary": "Создаёт новое заключение. Либо новую ревизию заключения."
+      }
+    },
+    "/project/{project_id}/conclusions": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "format": "uuid",
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ApiResponse"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/definitions/Conclusion"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "tags": [
+          "Conclusion"
+        ],
+        "operationId": "App\\Http\\Controller\\Project\\ConclusionsController::listConclusionsForProject",
+        "summary": "Получить список всех заключений объекта"
+      }
+    },
+    "/projects": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Список проектов",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ApiResponse"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/definitions/Project"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "tags": [
+          "Projects"
+        ],
+        "description": "Получить список проектов",
+        "operationId": "App\\Http\\Controller\\Project\\ProjectController::getAll"
+      }
+    },
+    "/template": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/CreateTemplateFromConclusionDTO"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "ok",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ApiResponse"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/ConclusionTemplate"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "tags": [
+          "Conclusion Template"
+        ],
+        "operationId": "App\\Http\\Controller\\Template\\TemplateController::createFromConclusion",
+        "summary": "Создать шаблон из существующего заключения"
+      }
+    },
+    "/template/{template_id}": {
+      "delete": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "format": "uuid",
+            "in": "path",
+            "name": "template_id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        },
+        "tags": [
+          "Template"
+        ],
+        "operationId": "App\\Http\\Controller\\Template\\TemplateController::delete",
+        "summary": "Удалить шаблон"
+      }
+    },
+    "/template/{template_id}/name": {
+      "patch": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "format": "uuid",
+            "in": "path",
+            "name": "template_id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ApiResponse"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/definitions/ConclusionTemplate"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "tags": [
+          "Template"
+        ],
+        "operationId": "App\\Http\\Controller\\Template\\TemplateController::rename",
+        "summary": "Переименовать шаблон"
+      }
+    },
+    "/templates": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ApiResponse"
+                },
+                {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/definitions/ConclusionTemplate"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "tags": [
+          "Conclusion Template"
+        ],
+        "operationId": "App\\Http\\Controller\\Template\\TemplateController::listTemplates",
+        "summary": "Получить доступные шаблоны"
+      }
+    }
+  },
+  "definitions": {
+    "AddBlockDictionaryDTO": {
+      "properties": {
+        "dictionary_path": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ApiResponse": {
+      "properties": {
+        "data": {},
+        "errors": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "x-nullable": true
+        },
+        "state": {
+          "description": "Ok or failed request",
+          "enum": [
+            "ok",
+            "error"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "Certificate": {
+      "properties": {
+        "scope": {
+          "nullable": false,
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ChangeConclusionBlockStateDTO": {
+      "properties": {
+        "new_state": {
+          "$ref": "#/definitions/ConclusionBlockState"
+        }
+      },
+      "type": "object"
+    },
+    "Conclusion": {
+      "properties": {
+        "author": {
+          "$ref": "#/definitions/User"
+        },
+        "created_at": {
+          "type": "integer"
+        },
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/definitions/ConclusionKind"
+        },
+        "name": {
+          "type": "string"
+        },
+        "paragraphs": {
+          "items": {
+            "$ref": "#/definitions/ConclusionParagraph"
+          },
+          "type": "array"
+        },
+        "project_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "revision": {
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "ConclusionBlock": {
+      "properties": {
+        "executor": {
+          "$ref": "#/definitions/User"
+        },
+        "file_path": {
+          "type": "string",
+          "x-nullable": true
+        },
+        "id": {
+          "type": "integer"
+        },
+        "kind": {
+          "$ref": "#/definitions/ConclusionBlockKind"
+        }
+      },
+      "type": "object"
+    },
+    "ConclusionBlockDictionary": {
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "path": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ConclusionBlockKind": {
+      "enum": [
+        "text",
+        "dict"
+      ],
+      "type": "string"
+    },
+    "ConclusionBlockSetKindDTO": {
+      "properties": {
+        "kind": {
+          "$ref": "#/definitions/ConclusionBlockKind"
+        }
+      },
+      "type": "object"
+    },
+    "ConclusionBlockState": {
+      "enum": [
+        "waiting_to_start",
+        "work_in_progress",
+        "sent_to_review",
+        "on_review",
+        "declined",
+        "completed"
+      ],
+      "type": "string"
+    },
+    "ConclusionId": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "ConclusionKind": {
+      "enum": [
+        "generator",
+        "files",
+        "online"
+      ],
+      "type": "string"
+    },
+    "ConclusionParagraph": {
+      "properties": {
+        "block": {},
+        "id": {
+          "type": "integer"
+        },
+        "order": {
+          "type": "integer"
+        },
+        "parent_id": {},
+        "title": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ConclusionParagraphId": {
+      "type": "integer"
+    },
+    "ConclusionSetTemplateDTO": {
+      "properties": {
+        "template_id": {
+          "description": "ID шаблона",
+          "format": "uuid",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ConclusionTemplate": {
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "is_basic": {
+          "description": "Является ли базовым шаблоном, иначе пользовательский",
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "CreateConclusionBlockDTO": {
+      "properties": {
+        "kind": {
+          "$ref": "#/definitions/ConclusionBlockKind"
+        }
+      },
+      "type": "object"
+    },
+    "CreateConclusionDTO": {
+      "properties": {
+        "kind": {
+          "default": "generator",
+          "type": "string",
+          "x-nullable": true
+        },
+        "name": {
+          "type": "string"
+        },
+        "template_id": {
+          "description": "ID шаблона",
+          "format": "uuid",
+          "type": "string",
+          "x-nullable": true
+        }
+      },
+      "type": "object"
+    },
+    "CreateConclusionParagraphDTO": {
+      "properties": {
+        "order": {
+          "description": "Порядковый номер",
+          "type": "integer"
+        },
+        "parent_id": {
+          "description": "ID родителя",
+          "type": "integer",
+          "x-nullable": true
+        },
+        "title": {
+          "description": "Название",
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "order"
+      ],
+      "type": "object"
+    },
+    "CreateTemplateFromConclusionDTO": {
+      "properties": {
+        "conclusion_id": {
+          "$ref": "#/definitions/ConclusionId"
+        },
+        "name": {
+          "description": "Название шаблона",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "DeleteBlocksDTO": {},
+    "Project": {
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/ProjectId"
+        },
+        "name": {
+          "$ref": "#/definitions/ProjectName"
+        },
+        "state": {
+          "$ref": "#/definitions/ProjectState"
+        },
+        "userAssignments": {
+          "items": {
+            "properties": {
+              "role": {
+                "$ref": "#/definitions/UserAssignmentRole"
+              },
+              "user": {
+                "$ref": "#/definitions/User"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "ProjectId": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "ProjectName": {
+      "type": "string"
+    },
+    "ProjectState": {
+      "enum": [
+        "default",
+        "submitted",
+        "resolving_submitted_issues",
+        "experts_wip",
+        "contract_signing",
+        "resolving_expertises",
+        "prepare_to_egrz",
+        "transfer_to_egrz",
+        "reply_in_progress",
+        "positive_answer",
+        "negative_answer",
+        "completed",
+        "completed_positive",
+        "completed_negative",
+        "completed_fired",
+        "deleted",
+        "client_deleted"
+      ],
+      "type": "string"
+    },
+    "RemoveDictionaryDTO": {
+      "properties": {
+        "dictionary_item_id": {
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "RenameParagraphDTO": {
+      "properties": {
+        "title": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "SetBlockExecutorDTO": {
+      "properties": {
+        "user_id": {
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "SetParagraphsParentDTO": {
+      "properties": {
+        "parent_id": {
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "TemplateId": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "TemplateParagraphId": {
+      "type": "integer"
+    },
+    "TemplateRenameDTO": {
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "UpsertProjectDTO": {
+      "properties": {
+        "project_id": {
+          "description": "uuid",
+          "format": "uuid",
+          "type": "string"
+        },
+        "project_name": {
+          "type": "string"
+        },
+        "project_state": {
+          "type": "string"
+        },
+        "users": {
+          "items": {
+            "$ref": "#/definitions/UpsertProjectDTO-User"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "UpsertProjectDTO-Certificate": {
+      "properties": {
+        "scope": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "UpsertProjectDTO-User": {
+      "properties": {
+        "assignment_type": {
+          "description": "expert|main_expert",
+          "enum": [
+            "expert",
+            "main_expert"
+          ],
+          "type": "string"
+        },
+        "certificates": {
+          "items": {
+            "$ref": "#/definitions/UpsertProjectDTO-Certificate"
+          },
+          "type": "array"
+        },
+        "email": {
+          "$ref": "#/definitions/UserEmail"
+        },
+        "full_name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "role": {
+          "$ref": "#/definitions/UserRole"
+        }
+      },
+      "type": "object"
+    },
+    "User": {
+      "properties": {
+        "certificates": {
+          "items": {
+            "$ref": "#/definitions/Certificate"
+          },
+          "type": "array"
+        },
+        "email": {
+          "$ref": "#/definitions/UserEmail"
+        },
+        "full_name": {
+          "description": "Full Name",
+          "type": "string"
+        },
+        "id": {
+          "nullable": false,
+          "type": "integer"
+        },
+        "role": {
+          "$ref": "#/definitions/UserRole"
+        }
+      },
+      "type": "object"
+    },
+    "UserAssignmentRole": {
+      "enum": [
+        "expert",
+        "main_expert"
+      ],
+      "type": "string"
+    },
+    "UserEmail": {
+      "format": "email",
+      "type": "string"
+    },
+    "UserRole": {
+      "enum": [
+        "client",
+        "verifier",
+        "admin",
+        "expert",
+        "project_manager"
+      ],
+      "type": "string"
+    }
+  },
+  "x-components": {}
+}

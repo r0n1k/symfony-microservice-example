@@ -1,0 +1,10 @@
+framework:
+    secret: '%env(resolve:SECRET)%'
+    csrf_protection: false
+
+    request:
+       formats:
+          json: 'application/json'
+
+    php_errors:
+        log: true

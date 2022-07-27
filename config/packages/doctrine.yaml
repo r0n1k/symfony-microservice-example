@@ -1,0 +1,78 @@
+doctrine:
+    dbal:
+        driver: pdo_pgsql
+        dbname: '%env(resolve:POSTGRES_DB)%'
+        user: '%env(resolve:POSTGRES_USER)%'
+        password: '%env(resolve:POSTGRES_PASSWORD)%'
+        host: '%env(resolve:POSTGRES_HOST)%'
+        port: '%env(resolve:POSTGRES_PORT)%'
+        server_version: '%env(resolve:POSTGRES_SERVER_VERSION)%'
+        schema_filter: '/^(%env(resolve:POSTGRES_DB_PREFIX)%|project_user_assignment_id_seq|custom_dictionary_value_id_seq|ext_log)/'
+
+        types:
+           project_id: App\Db\Extensions\Types\Project\IdType
+           project_name: App\Db\Extensions\Types\Project\NameType
+           project_state: App\Db\Extensions\Types\Project\StateType
+
+           user_id: App\Db\Extensions\Types\User\IdType
+           user_fullname: App\Db\Extensions\Types\User\FullNameType
+           user_role: App\Db\Extensions\Types\User\RoleType
+           user_email: App\Db\Extensions\Types\User\EmailType
+
+           user_certificate_id: App\Db\Extensions\Types\User\Certificate\IdType
+           user_certificate_scope: App\Db\Extensions\Types\User\Certificate\ScopeType
+
+           project_user_assignment_role: App\Db\Extensions\Types\ProjectUserAssignment\RoleType
+
+           template_id: App\Db\Extensions\Types\Template\IdType
+           template_title: App\Db\Extensions\Types\Template\TitleType
+
+           template_paragraph_id: App\Db\Extensions\Types\Template\Paragraph\IdType
+           template_paragraph_title: App\Db\Extensions\Types\Template\Paragraph\TitleType
+           template_paragraph_blockkind: App\Db\Extensions\Types\Template\Paragraph\BlockKindType
+
+           conclusion_id: App\Db\Extensions\Types\Conclusion\IdType
+           conclusion_kind: App\Db\Extensions\Types\Conclusion\KindType
+           conclusion_revision: App\Db\Extensions\Types\Conclusion\RevisionType
+           conclusion_template_id: App\Db\Extensions\Types\Conclusion\TemplateIdType
+           conclusion_title: App\Db\Extensions\Types\Conclusion\TitleType
+           conclusion_state: App\Db\Extensions\Types\Conclusion\StateType
+           conclusion_file_type_state: App\Db\Extensions\Types\Conclusion\FileTypeStateType
+
+           conclusion_paragraph_id: App\Db\Extensions\Types\Conclusion\Paragraph\IdType
+           conclusion_paragraph_title: App\Db\Extensions\Types\Conclusion\Paragraph\TitleType
+           conclusion_paragraph_order: App\Db\Extensions\Types\Conclusion\Paragraph\OrderType
+
+           conclusion_paragraph_block_id: App\Db\Extensions\Types\Conclusion\Paragraph\Block\IdType
+           conclusion_paragraph_block_kind: App\Db\Extensions\Types\Conclusion\Paragraph\Block\KindType
+           conclusion_paragraph_block_filepath: App\Db\Extensions\Types\Conclusion\Paragraph\Block\FilePathType
+           conclusion_paragraph_block_state: App\Db\Extensions\Types\Conclusion\Paragraph\Block\StateType
+           conclusion_paragraph_block_order: App\Db\Extensions\Types\Conclusion\Paragraph\Block\OrderType
+
+           dictionary_id: App\Db\Extensions\Types\Dictionary\IdType
+           dictionary_key: App\Db\Extensions\Types\Dictionary\KeyType
+           conclusion_paragraph_block_dictionary_id: App\Db\Extensions\Types\Dictionary\IdType
+           conclusion_paragraph_block_dictionary_path: App\Db\Extensions\Types\Dictionary\KeyType
+
+           array: Doctrine\DBAL\Types\JsonType
+
+    orm:
+        auto_generate_proxy_classes: true
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        auto_mapping: true
+        mappings:
+            Project:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Domain/Project/Entity'
+                prefix: 'App\Domain\Project\Entity'
+            Template:
+               is_bundle: false
+               type: annotation
+               dir: '%kernel.project_dir%/src/Domain/Template/Entity'
+               prefix: 'App\Domain\Template\Entity'
+            EntityLog:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Services/EntityLogger/Entity'
+                prefix: 'App\Services\EntityLogger\Entity'

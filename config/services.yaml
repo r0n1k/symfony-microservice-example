@@ -1,0 +1,121 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    elexp_backend_url: "%env(resolve:ELEXP_BACKEND_URL)%"
+    conclusions_service_url: "%env(resolve:CONCLUSIONS_SERVICE_URL)%"
+    websocket_url: "%env(resolve:WEBSOCKET_URL)%"
+    container.dumper.inline_factories: true
+    container.dumper.inline_class_loader: true
+
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/*'
+        exclude:
+            - '../src/{Db,DI,Kernel.php}'
+            - '../src/Http/Formatter/{Events,Objects,UnformattedResponse.php,CustomJsonResponse.php}'
+            - '../src/Http/Services/{DTOBuilder/InvalidDTOException.php}'
+            - '../src/Http/Services/{Pagination/PaginationContainer.php}'
+            - '../src/Services/Authentication/UserIdentity.php'
+            - '../src/Domain/{Project,Template}/Entity'
+            - '../src/Domain/{Project,Template}/Event'
+            - '../src/Services/Dictionary/HtmlDTO.php'
+
+    App\Domain\Project\Subscribers\:
+        resource: '../src/Domain/Project/Subscribers'
+        tags:
+            - 'domain.subscriber'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Http\Controller\:
+        resource: '../src/Http/Controller'
+        tags: ['controller.service_arguments']
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+
+    App\Services\Authentication\JWT\Decoder:
+        arguments: ["%env(resolve:SECRET)%"]
+
+    table_prefix_subscriber:
+        class: App\Db\Extensions\TablePrefix
+        arguments: ["%env(resolve:POSTGRES_DB_PREFIX)%"]
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    App\Http\Formatter\Formatters\:
+        resource: ../src/Http/Formatter/Formatters
+        tags: [ "kernel.event_subscriber" ]
+
+    App\Services\ErrorsCollection\ErrorsCollection:
+        shared: true
+
+    entity_sorter_subscriber:
+        class: App\Services\EntitySorter\EntitySorterListener
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    entity_logger_subscriber:
+        class: App\Services\EntityLogger\EntityLoggerListener
+        tags:
+          - { name: doctrine.event_subscriber }
+
+    App\Services\Project\ProjectFetcherInterface:
+        class: App\Services\Project\ProjectFetcher
+        public: true
+
+    App\Domain\Project\UseCase\Project\Upsert\Handler:
+        class: App\Domain\Project\UseCase\Project\Upsert\Handler
+        public: true
+
+    App\Services\ServicesUrlManager:
+        arguments: ["%conclusions_service_url%", "%elexp_backend_url%", "%websocket_url%"]
+
+    App\Services\SiteEnvResolver:
+        arguments: ["%env(resolve:SITE)%"]
+
+    App\Services\StoragePathResolver:
+        arguments: ["%env(resolve:SITE)%", "%kernel.project_dir%"]
+
+    App\Services\HttpClient\HttpClientFactory: ~
+
+    GuzzleHttp\Client:
+        factory: ['@App\Services\HttpClient\HttpClientFactory', 'make']
+
+    App\Services\Onlyoffice\DocumentCreatorInterface:
+        class: App\Services\Onlyoffice\DocumentCreator
+
+    App\Domain\Common\Service\YamlParserInterface:
+        class: App\Services\YamlParser
+
+    App\Services\ZipArchiver\ArchiveBuilder:
+        class: App\Services\ZipArchiver\ArchiveBuilder
+
+    App\Domain\Common\Service\BlockFilePathResolverInterface:
+        class: App\Services\Onlyoffice\BlockFilePathResolver
+
+    App\Services\Resumable\ResumableFacade:
+        class: App\Services\Resumable\ResumableFacade
+
+    App\Services\Dictionary\BlockToHtmlConverterInterface:
+        class: App\Services\Dictionary\BlockToHtmlConverter
+
+    App\Http\Services\Realtime\WebsocketClientInterface:
+        class: App\Http\Services\Realtime\WebsocketClient
+
+    Doctrine\Common\Annotations\AnnotationReader:
+        class: Doctrine\Common\Annotations\AnnotationReader
+
+    JMS\Serializer\SerializerBuilder:
+        class: JMS\Serializer\SerializerBuilder

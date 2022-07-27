@@ -1,0 +1,44 @@
+# test environment
+
+version: '3'
+
+services:
+
+   app:
+      image: 'registry.stroysd.ru/elexp/elexp/conclusions-backend:feature-conclusion-backend'
+      build: .
+      ports:
+         - 0.0.0.0:8080:80
+      volumes:
+         - ./:/var/www/html
+         - ./docker/php.ini-development:/usr/local/etc/php/conf.d/php.ini
+         - ./docker/docker-entrypoint.sh:/docker-entrypoint.sh
+      networks:
+        default:
+      environment:
+         APP_ENV: 'dev'
+         SECRET: 'test secret phrase'
+         POSTGRES_SERVER_VERSION: '9.6'
+         POSTGRES_HOST: 'database'
+         POSTGRES_PORT: 5432
+         POSTGRES_USER: 'user'
+         POSTGRES_PASSWORD: 'password'
+         POSTGRES_DB: 'elexp'
+         MULTI_CLIENT: null
+
+   database:
+      image: 'postgres:9.6'
+      networks:
+        default:
+           aliases: ['database']
+      ports:
+         - 0.0.0.0:5432:5432
+      volumes:
+      - ./var/.database:/var/lib/postgresql/data
+      environment:
+         POSTGRES_PASSWORD: 'password'
+         POSTGRES_USER: 'user'
+         POSTGRES_DB: 'elexp'
+
+networks:
+  default:
